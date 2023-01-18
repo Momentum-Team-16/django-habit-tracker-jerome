@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "Create a superuser in production"
 
     def handle(self, *args, **options):
-        if not settings.DEBUG:
+        if settings.RENDER:
             user, created = User.objects.get_or_create(
                 username=settings.DJANGO_SUPERUSER_USERNAME
             )
