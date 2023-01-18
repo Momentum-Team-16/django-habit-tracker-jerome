@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +8,7 @@
     <script src="{% static 'js/main.js' %}" defer></script>
     <title>Habit Tracker</title>
   </head>
-  <body>
+  <body id="container">
     <h2 id="page-title">Habit Tracker</h2>
     {% block content %} {% endblock %}
   </body>
