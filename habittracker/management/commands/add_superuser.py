@@ -1,15 +1,11 @@
-# your-app/management/commands/add_superuser.py
-
 import random
 
 from django.core.management.base import BaseCommand
 
-from habittracker.models import User # Change this to reflect your app's name and name of your custom User model
-from habittracker import settings # Change this to reflect your app's name
+from habittracker.models import User
+from habittracker import settings
 
 
-# To run this management command:
-# python manage.py add_superuser
 class Command(BaseCommand):
     help = "Create a superuser in production"
 
