@@ -3,7 +3,7 @@ import random
 from django.core.management.base import BaseCommand
 
 from habittracker.models import User
-from habittracker import settings
+from config import settings
 
 
 class Command(BaseCommand):
