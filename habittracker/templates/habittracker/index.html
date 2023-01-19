@@ -2,4 +2,54 @@
 <!-- whatever -->
 {% block content %}
 <h2>Index.html right here, y'all</h2>
-{% endblock %}
+<form id="habit-form" class="row card m-2" novalidate>
+  <h3 id="page-title" class="card-header">Enter a Habit:</h3>
+  <div class="card-body">
+    <div class="row">
+      <div class="col form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="floating-name"
+          placeholder="Habit name"
+          aria-label="Habit name"
+        />
+        <label for="floating-name">Habit name</label>
+      </div>
+      <div class="col form-floating">
+        <input
+          type="number"
+          class="form-control"
+          id="floating-target"
+          placeholder="Target Number"
+          aria-label="Target Number"
+        />
+        <label for="floating-target">Target number</label>
+      </div>
+      <div class="col form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="floating-unit"
+          placeholder="Unit of Measure"
+          aria-label="Unit of Measure"
+        />
+        <label for="floating-unit">Unit of Measure</label>
+      </div>
+    </div>
+    <div id="form-save">
+      <button id="save-button" class="btn btn-primary mt-1" type="submit">
+        Save
+      </button>
+    </div>
+  </div>
+</form>
+{% for habit in habits.all %}
+<div class="card m-2">
+  <div class="card-body">
+    <a href="{% url 'habit-detail' pk=habit.pk %}">{{ habit }}</a>
+    <button type="button" class="btn btn-secondary">Edit</button>
+    <button type="button" class="btn btn-danger">X</button>
+  </div>
+</div>
+{% endfor %} {% endblock %}

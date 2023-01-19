@@ -20,5 +20,7 @@ from habittracker import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
-    path('', views.index, name='home')
+    path('', views.index, name='home'),
+    path('habit/<int:pk>', views.habit_detail, name='habit-detail'),
+    path('habit/new', views.create_habit, name='habit-new')
 ]
