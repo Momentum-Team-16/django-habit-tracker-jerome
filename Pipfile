@@ -11,9 +11,13 @@ django-registration-redux = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
 whitenoise = "*"
+black = "*"
 
 [dev-packages]
 flake8 = "*"
 
 [requires]
 python_version = "3.10"
+
+[pipenv]
+allow_prereleases = true

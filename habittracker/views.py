@@ -21,15 +21,16 @@ def habit_detail(request, pk):
 def create_habit(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        breakpoint()
         habit_name = data['habitName']
         habit_target = data['habitTarget']
         habit_unit = data['habitUnit']
+        habit_user = request.user
 
         habit, created = Habit.objects.get_or_create(
             name=habit_name,
             target=habit_target,
-            unit_measure=habit_unit
+            unit_measure=habit_unit,
+            owner=habit_user,
         )
 
         habit.save()

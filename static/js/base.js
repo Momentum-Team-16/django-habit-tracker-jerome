@@ -60,6 +60,7 @@ habitForm.addEventListener('submit', (event) => {
       let newCard = createCardEl('div', ['card', 'm-2'], body);
       let cardBody = createCardEl('div', ['card-body'], newCard);
       let habitDetail = createCardEl('a', ['noclass'], cardBody);
+      habitDetail.innerText = `${data.habitName} ${data.habitTarget} ${data.habitUnit}`;
       habitDetail.href = `http://127.0.0.1:8000/habit/${data.habit_pk}`;
       let habitEdit = createCardEl(
         'button',
