@@ -39,7 +39,6 @@ def create_habit(request):
             owner=habit_user,
         )
 
-        habit.save()
         data = {
             'habit_name': habit.name,
             'habit_target': habit.target,

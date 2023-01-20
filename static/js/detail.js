@@ -52,10 +52,64 @@ recordSave.addEventListener('click', (event) => {
       );
       recordDelete.setAttribute('type', 'button');
       recordDelete.setAttribute('data-bs-toggle', 'modal');
+      recordDelete.setAttribute('data-bs-target', `#delete${data.record_pk}`);
       recordDelete.innerText = 'X';
 
-      recordDltBtn.addEventListener('click', (event) => {
-        let recordToDelete = recordDltBtn.closest('.card');
+      let recordDeleteModal = createCardEl('div', ['modal', 'fade'], buttonDiv);
+      recordDeleteModal.setAttribute('id', `delete${data.record_pk}`);
+      let recordDltModalDialog = createCardEl(
+        'div',
+        ['modal-dialog', 'modal-dialog-centered', 'modal-xl'],
+        recordDeleteModal
+      );
+      let recordDltModalContent = createCardEl(
+        'div',
+        ['modal-content'],
+        recordDltModalDialog
+      );
+
+      let recordDltModalHeader = createCardEl(
+        'div',
+        ['modal-header'],
+        recordDltModalContent
+      );
+      let recordDltModalTitle = createCardEl(
+        'h5',
+        ['modal-title'],
+        recordDltModalHeader
+      );
+      recordDltModalTitle.innerText =
+        'Are you sure you want to delete this record?';
+      let recordDltHeaderClose = createCardEl(
+        'button',
+        ['btn-close'],
+        recordDltModalHeader
+      );
+      recordDltHeaderClose.setAttribute('type', 'button');
+      recordDltHeaderClose.setAttribute('data-bs-dismiss', 'modal');
+
+      let recordDltModalBody = createCardEl(
+        'div',
+        'modal-body',
+        recordDltModalContent
+      );
+      recordDltModalBody.innerText = `${data.record_quantity} ${data.habit_unit} on ${data.record_date}`;
+
+      let recordDltModalFooter = createCardEl(
+        'div',
+        ['modal-footer'],
+        recordDltModalContent
+      );
+      let recordDltModalDlt = createCardEl(
+        'button',
+        ['btn', 'btn-danger'],
+        recordDltModalFooter
+      );
+      recordDltModalDlt.setAttribute('data-bs-dismiss', 'modal');
+      recordDltModalDlt.innerText = 'DELETE';
+
+      recordDltModalDlt.addEventListener('click', (event) => {
+        let recordToDelete = recordDelete.closest('.card');
         recordToDelete.remove();
         fetch(`../record/${data.record_pk}/delete`, {
           method: 'GET',
@@ -72,6 +126,14 @@ recordSave.addEventListener('click', (event) => {
             console.log('record deleted');
           });
       });
+
+      let recordDltModalCancel = createCardEl(
+        'button',
+        ['btn', 'btn-secondary'],
+        recordDltModalFooter
+      );
+      recordDltModalCancel.setAttribute('data-bs-dismiss', 'modal');
+      recordDltModalCancel.innerText = 'Cancel';
     });
 });
 
