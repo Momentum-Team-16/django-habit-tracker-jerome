@@ -16,10 +16,8 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 
 const body = document.querySelector('#container');
-const habitForm = document.querySelector('#habit-form');
-const habitName = document.querySelector('#floating-name');
-const habitTarget = document.querySelector('#floating-target');
-const habitUnit = document.querySelector('#floating-unit');
+const deleteButtons = document.querySelectorAll('.delete-button');
+// const newHabitModal = document.querySelector('#myModal');
 
 // Helper function to create card elements
 function createCardEl(type, classArray, parent) {
@@ -29,7 +27,12 @@ function createCardEl(type, classArray, parent) {
   return newElement;
 }
 
-habitForm.addEventListener('submit', (event) => {
+let habitSave = document.querySelector('#save-button');
+let habitName = document.querySelector('#floating-name');
+let habitTarget = document.querySelector('#floating-target');
+let habitUnit = document.querySelector('#floating-unit');
+
+habitSave.addEventListener('click', (event) => {
   event.preventDefault();
   console.log('submit works');
 
@@ -58,19 +61,49 @@ habitForm.addEventListener('submit', (event) => {
     .then((data) => {
       console.log(data);
       let newCard = createCardEl('div', ['card', 'm-2'], body);
-      let cardBody = createCardEl('div', ['card-body'], newCard);
+      let cardBody = createCardEl(
+        'div',
+        ['card-body', 'd-flex', 'justify-content-between'],
+        newCard
+      );
       let habitDetail = createCardEl('a', ['noclass'], cardBody);
-      habitDetail.innerText = `${data.habitName} ${data.habitTarget} ${data.habitUnit}`;
+      habitDetail.innerText = `${data.habit_name} ${data.habit_target} ${data.habit_unit}`;
       habitDetail.href = `http://127.0.0.1:8000/habit/${data.habit_pk}`;
+      let buttonDiv = createCardEl('div', ['noclass'], cardBody);
       let habitEdit = createCardEl(
         'button',
         ['btn', 'btn-secondary'],
-        cardBody
+        buttonDiv
       );
       habitEdit.setAttribute('type', 'button');
       habitEdit.innerText = 'Edit';
-      let habitDelete = createCardEl('button', ['btn', 'btn-danger'], cardBody);
+      let habitDelete = createCardEl(
+        'button',
+        ['btn', 'btn-danger', 'ml-2'],
+        buttonDiv
+      );
       habitDelete.setAttribute('type', 'button');
       habitDelete.innerText = 'X';
     });
 });
+
+for (let deleteButton of deleteButtons) {
+  deleteButton.addEventListener('click', (event) => {
+    let habitToDelete = deleteButton.closest('.card');
+    habitToDelete.remove();
+    fetch(`habit/${deleteButton.dataset.deletePk}/delete`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': csrftoken,
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log('habit deleted');
+      });
+  });
+}

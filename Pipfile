@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 gunicorn = "*"
 whitenoise = "*"
 black = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 flake8 = "*"

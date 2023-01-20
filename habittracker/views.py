@@ -15,7 +15,12 @@ def index(request):
 
 def habit_detail(request, pk):
     habit = get_object_or_404(Habit, pk=pk)
-    return render(request, 'habittracker/habit_detail.html', {'habit': habit})
+    records = Record.objects.filter(habit=habit)
+    context = {
+        'habit': habit,
+        'records': records,
+    }
+    return render(request, 'habittracker/habit_detail.html', context)
 
 
 def create_habit(request):
@@ -42,4 +47,70 @@ def create_habit(request):
         }
     else:
         data = {'created': 'nothing'}
+    return JsonResponse(data)
+
+
+def habit_edit(request, pk):
+    habit = get_object_or_404(Habit, pk=pk)
+    if request.method == "POST":
+        form = HabitForm(request.POST, instance=habit)
+        if form.is_valid():
+            form.save()
+            return redirect('habit-detail', pk=habit.pk)
+    else:
+        form = HabitForm(instance=habit)
+    return render(request, 'habittracker/habit_edit.html', {'form': form})
+
+
+def habit_delete(request, pk):
+    habit = get_object_or_404(Habit, pk=pk)
+    habit.delete()
+    data = {
+        'deleted': 'yes'
+    }
+    return JsonResponse(data)
+
+
+def create_record(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_date = data['recordDate']
+        record_quantity = data['recordQuantity']
+        habit_user = request.user
+
+        record, created = Record.objects.get_or_create(
+            date=record_date,
+            quantity=record_quantity,
+            habit=ddd
+        )
+
+        record.save()
+        data = {
+            'record_date': record.date,
+            'record_quantity': record.quantity,
+            'record_pk': record.pk,
+        }
+    else:
+        data = {'created': 'nothing'}
+    return JsonResponse(data)
+
+
+def record_edit(request, pk):
+    record = get_object_or_404(Habit, pk=pk)
+    if request.method == "POST":
+        form = RecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('habit-detail', pk=habit.pk)
+    else:
+        form = RecordForm(instance=record)
+    return render(request, 'habittracker/record_edit.html', {'form': form})
+
+
+def record_delete(request, pk):
+    record = get_object_or_404(Record, pk=pk)
+    record.delete()
+    data = {
+        'deleted': 'yes'
+    }
     return JsonResponse(data)

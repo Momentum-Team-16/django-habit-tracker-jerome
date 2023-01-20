@@ -2,54 +2,136 @@
 <!-- whatever -->
 {% block content %}
 <h2>Index.html right here, y'all</h2>
-<form id="habit-form" class="row card m-2" novalidate>
-  <h3 id="page-title" class="card-header">Enter a Habit:</h3>
-  <div class="card-body">
-    <div class="row">
-      <div class="col form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="floating-name"
-          placeholder="Habit name"
-          aria-label="Habit name"
-        />
-        <label for="floating-name">Habit name</label>
+<div class="container">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#myModal"
+  >
+    Add a Habit
+  </button>
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter a Habit:</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <form id="habit-form" class="m-2" novalidate>
+          <div class="modal-body">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floating-name"
+                placeholder="Habit name"
+                aria-label="Habit name"
+              />
+              <label for="floating-name">Habit name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floating-target"
+                placeholder="Target Number"
+                aria-label="Target Number"
+              />
+              <label for="floating-target">Target number</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floating-unit"
+                placeholder="Unit of Measure"
+                aria-label="Unit of Measure"
+              />
+              <label for="floating-unit" class="required"
+                >Unit of Measure</label
+              >
+            </div>
+          </div>
+          <div id="form-save" class="modal-footer">
+            <button
+              id="save-button"
+              class="btn btn-primary"
+              type="submit"
+              data-bs-dismiss="modal"
+            >
+              Save
+            </button>
+            <button
+              type="submit"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
-      <div class="col form-floating">
-        <input
-          type="number"
-          class="form-control"
-          id="floating-target"
-          placeholder="Target Number"
-          aria-label="Target Number"
-        />
-        <label for="floating-target">Target number</label>
-      </div>
-      <div class="col form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="floating-unit"
-          placeholder="Unit of Measure"
-          aria-label="Unit of Measure"
-        />
-        <label for="floating-unit">Unit of Measure</label>
-      </div>
-    </div>
-    <div id="form-save">
-      <button id="save-button" class="btn btn-primary mt-1" type="submit">
-        Save
-      </button>
     </div>
   </div>
-</form>
+</div>
 {% for habit in habits.all %}
 <div class="card m-2">
-  <div class="card-body">
+  <div class="card-body d-flex justify-content-between">
     <a href="{% url 'habit-detail' pk=habit.pk %}">{{ habit }}</a>
-    <button type="button" class="btn btn-secondary">Edit</button>
-    <button type="button" class="btn btn-danger">X</button>
+    <div>
+      <a
+        href="{% url 'habit-edit' pk=habit.pk %} "
+        type="button"
+        class="btn btn-secondary"
+      >
+        Edit
+      </a>
+      <button
+        type="button"
+        class="btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#delete{{ habit.pk }}"
+      >
+        X
+      </button>
+      <div class="modal fade" id="delete{{ habit.pk }}">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                Are you sure you want to delete "{{ habit }}"?
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-danger delete-button"
+                data-delete-pk="{{ habit.pk }}"
+                data-bs-dismiss="modal"
+              >
+                DELETE
+              </button>
+              <button
+                type="submit"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endfor %} {% endblock %}
