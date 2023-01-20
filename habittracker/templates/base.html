@@ -18,7 +18,10 @@
     <title>Habit Tracker</title>
   </head>
   <body id="container" class="m-2">
-    <h2 class="text-center" id="page-title">Habit Tracker</h2>
+    <header>
+      <a href="{% url 'home' %}">Home</a>
+      <h2 class="text-center" id="page-title">Habit Tracker</h2>
+    </header>
     {% block content %} {% endblock %}
   </body>
 </html>

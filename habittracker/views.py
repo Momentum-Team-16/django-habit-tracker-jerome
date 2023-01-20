@@ -76,18 +76,19 @@ def create_record(request):
         data = json.loads(request.body)
         record_date = data['recordDate']
         record_quantity = data['recordQuantity']
-        habit_user = request.user
+        habit = request.habit
 
         record, created = Record.objects.get_or_create(
             date=record_date,
             quantity=record_quantity,
-            habit=ddd
+            habit=habit,
         )
 
         record.save()
         data = {
             'record_date': record.date,
             'record_quantity': record.quantity,
+            'record_habit': record.habit,
             'record_pk': record.pk,
         }
     else:
@@ -119,5 +120,4 @@ def record_delete(request, pk):
 def habit_delete_detail(request, pk):
     habit = get_object_or_404(Habit, pk=pk)
     habit.delete()
-    data = {'deleted': 'deleted'}
     return redirect('home')
