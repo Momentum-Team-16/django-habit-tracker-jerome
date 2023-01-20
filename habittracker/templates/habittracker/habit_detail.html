@@ -5,7 +5,42 @@
   <div class="card-body">
     <h5>{{ habit }}</h5>
     <button type="button" class="btn btn-secondary">Edit</button>
-    <button type="button" class="btn btn-danger">X</button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      data-bs-toggle="modal"
+      data-bs-target="#delete{{ habit.pk }}"
+    >
+      X
+    </button>
+  </div>
+</div>
+
+<div class="modal fade" id="delete{{ habit.pk }}">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Are you sure you want to delete "{{ habit }}"?
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-footer">
+        <a
+          href="{% url 'habit-delete-detail' pk=habit.pk %}"
+          class="btn btn-danger"
+        >
+          DELETE
+        </a>
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -113,7 +148,7 @@
             <div class="modal-body">{{ record }}</div>
             <div class="modal-footer">
               <button
-                class="btn btn-danger delete-button"
+                class="btn btn-danger record-delete-button"
                 data-delete-pk="{{ record.pk }}"
                 data-bs-dismiss="modal"
               >

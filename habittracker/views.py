@@ -114,3 +114,10 @@ def record_delete(request, pk):
         'deleted': 'yes'
     }
     return JsonResponse(data)
+
+
+def habit_delete_detail(request, pk):
+    habit = get_object_or_404(Habit, pk=pk)
+    habit.delete()
+    data = {'deleted': 'deleted'}
+    return redirect('home')
