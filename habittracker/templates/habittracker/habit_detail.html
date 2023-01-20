@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 <!-- spacer -->
 {% block content %}
-<div class="card m-2">
+<div class="card m-2" id="habit" data-habit-pk="{{ habit.pk }}">
   <div class="card-body">
     <h5>{{ habit }}</h5>
     <button type="button" class="btn btn-secondary">Edit</button>
@@ -80,7 +80,7 @@
               <input
                 type="number"
                 class="form-control"
-                id="floating-quanity"
+                id="floating-quantity"
                 placeholder="Quantity"
                 aria-label="Quantity"
               />

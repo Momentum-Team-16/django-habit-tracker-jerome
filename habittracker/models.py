@@ -34,4 +34,4 @@ class Record(BaseModel):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='records')
 
     def __str__(self):
-        return f'{self.habit} on {self.date}'
+        return f'{self.quantity} {self.habit.unit_measure} on {self.date}'

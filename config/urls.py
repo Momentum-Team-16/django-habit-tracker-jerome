@@ -26,7 +26,7 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('habit/<int:pk>/edit', views.habit_edit, name='habit-edit'),
     path('habit/<int:pk>/delete', views.habit_delete, name='habit-delete'),
-    path('record/new', views.create_record, name='record-new'),
+    path('habit/<int:pk>/records', views.create_record, name='record-new'),
     path('record/<int:pk>/edit', views.record_edit, name='record-edit'),
     path('record/<int:pk>/delete', views.record_delete, name='record-delete'),
     path('habit/<int:pk>/delete_detail', views.habit_delete_detail, name='habit-delete-detail'),

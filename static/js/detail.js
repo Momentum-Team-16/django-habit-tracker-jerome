@@ -1,4 +1,5 @@
 const recordDeleteButtons = document.querySelectorAll('.record-delete-button');
+const currentHabit = document.querySelector('#habit');
 
 let recordSave = document.querySelector('#record-save-button');
 let recordDate = document.querySelector('#floating-date');
@@ -13,7 +14,7 @@ recordSave.addEventListener('click', (event) => {
 
   console.log(recordDateValue, recordQuantityValue);
 
-  fetch('record/new', {
+  fetch(`../habit/${currentHabit.dataset.habitPk}/records`, {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
@@ -36,24 +37,41 @@ recordSave.addEventListener('click', (event) => {
         ['card-body', 'd-flex', 'justify-content-between'],
         newCard
       );
-      let habitDetail = createCardEl('a', ['noclass'], cardBody);
-      habitDetail.innerText = `${data.habit_name} ${data.habit_target} ${data.habit_unit}`;
-      habitDetail.href = `http://127.0.0.1:8000/habit/${data.habit_pk}`;
+      let recordDetail = createCardEl('p', ['noclass'], cardBody);
+      recordDetail.innerText = `${data.record_quantity} ${data.habit_unit} on ${data.record_date}`;
+
       let buttonDiv = createCardEl('div', ['noclass'], cardBody);
-      let habitEdit = createCardEl(
-        'button',
-        ['btn', 'btn-secondary'],
-        buttonDiv
-      );
-      habitEdit.setAttribute('type', 'button');
-      habitEdit.innerText = 'Edit';
-      let habitDelete = createCardEl(
+      let recordEdit = createCardEl('a', ['btn', 'btn-secondary'], buttonDiv);
+      recordEdit.href = `http://127.0.0.1:8000/record/${data.record_pk}/edit`;
+      recordEdit.setAttribute('type', 'button');
+      recordEdit.innerText = 'Edit';
+      let recordDelete = createCardEl(
         'button',
         ['btn', 'btn-danger', 'ml-2'],
         buttonDiv
       );
-      habitDelete.setAttribute('type', 'button');
-      habitDelete.innerText = 'X';
+      recordDelete.setAttribute('type', 'button');
+      recordDelete.setAttribute('data-bs-toggle', 'modal');
+      recordDelete.innerText = 'X';
+
+      recordDltBtn.addEventListener('click', (event) => {
+        let recordToDelete = recordDltBtn.closest('.card');
+        recordToDelete.remove();
+        fetch(`../record/${data.record_pk}/delete`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrftoken,
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log('record deleted');
+          });
+      });
     });
 });
 

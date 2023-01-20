@@ -6,7 +6,8 @@ import json
 
 # Create your views here.
 def index(request):
-    habits = Habit.objects.all()
+    user = request.user
+    habits = Habit.objects.filter(owner=user)
     context = {
         'habits': habits,
     }
@@ -71,12 +72,12 @@ def habit_delete(request, pk):
     return JsonResponse(data)
 
 
-def create_record(request):
+def create_record(request, pk):
     if request.method == 'POST':
         data = json.loads(request.body)
         record_date = data['recordDate']
         record_quantity = data['recordQuantity']
-        habit = request.habit
+        habit = get_object_or_404(Habit, pk=pk)
 
         record, created = Record.objects.get_or_create(
             date=record_date,
@@ -84,12 +85,13 @@ def create_record(request):
             habit=habit,
         )
 
-        record.save()
         data = {
             'record_date': record.date,
             'record_quantity': record.quantity,
-            'record_habit': record.habit,
             'record_pk': record.pk,
+            'habit_name': habit.name,
+            'habit_target': habit.target,
+            'habit_unit': habit.unit_measure,
         }
     else:
         data = {'created': 'nothing'}
