@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import User, Habit, Record
+from .forms import HabitForm, RecordForm
+from .models import Habit, Record
 import json
 
 
@@ -56,7 +57,7 @@ def habit_edit(request, pk):
         form = HabitForm(request.POST, instance=habit)
         if form.is_valid():
             form.save()
-            return redirect('habit-detail', pk=habit.pk)
+            return redirect('home')
     else:
         form = HabitForm(instance=habit)
     return render(request, 'habittracker/habit_edit.html', {'form': form})
@@ -98,7 +99,7 @@ def create_record(request, pk):
 
 
 def record_edit(request, pk):
-    record = get_object_or_404(Habit, pk=pk)
+    record = get_object_or_404(Record, pk=pk)
     if request.method == "POST":
         form = RecordForm(request.POST, instance=record)
         if form.is_valid():
