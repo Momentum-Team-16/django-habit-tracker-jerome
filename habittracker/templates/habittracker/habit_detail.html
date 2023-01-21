@@ -4,7 +4,13 @@
 <div class="card m-2" id="habit" data-habit-pk="{{ habit.pk }}">
   <div class="card-body">
     <h5>{{ habit }}</h5>
-    <button type="button" class="btn btn-secondary">Edit</button>
+    <a
+      href="{% url 'habit-edit' pk=habit.pk %} "
+      type="button"
+      class="btn btn-secondary"
+    >
+      Edit
+    </a>
     <button
       type="button"
       class="btn btn-danger"

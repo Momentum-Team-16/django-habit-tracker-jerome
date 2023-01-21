@@ -104,7 +104,7 @@ def record_edit(request, pk):
         form = RecordForm(request.POST, instance=record)
         if form.is_valid():
             form.save()
-            return redirect('habit-detail', pk=habit.pk)
+            return redirect('habit-detail', pk=record.habit.pk)
     else:
         form = RecordForm(instance=record)
     return render(request, 'habittracker/record_edit.html', {'form': form})

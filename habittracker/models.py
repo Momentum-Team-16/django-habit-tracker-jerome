@@ -33,5 +33,8 @@ class Record(BaseModel):
     quantity = models.IntegerField(validators=[MinValueValidator(0)], blank=True, null=True)
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='records')
 
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['habit', 'date'], name='unique_record')]
+
     def __str__(self):
         return f'{self.quantity} {self.habit.unit_measure} on {self.date}'
