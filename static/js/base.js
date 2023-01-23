@@ -68,7 +68,7 @@ habitSave.addEventListener('click', (event) => {
       );
       let habitDetail = createCardEl('a', ['noclass'], cardBody);
       habitDetail.innerText = `${data.habit_name} ${data.habit_target} ${data.habit_unit}`;
-      habitDetail.href = `http://127.0.0.1:8000/habit/${data.habit_pk}`;
+      habitDetail.href = `${window.location.origin}/habit/${data.habit_pk}`;
       let buttonDiv = createCardEl('div', ['noclass'], cardBody);
       let habitEdit = createCardEl(
         'button',
