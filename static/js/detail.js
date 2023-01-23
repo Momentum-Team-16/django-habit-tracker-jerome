@@ -42,7 +42,7 @@ recordSave.addEventListener('click', (event) => {
 
       let buttonDiv = createCardEl('div', ['noclass'], cardBody);
       let recordEdit = createCardEl('a', ['btn', 'btn-secondary'], buttonDiv);
-      recordEdit.href = `http://127.0.0.1:8000/record/${data.record_pk}/edit`;
+      recordEdit.href = `${window.location.origin}/record/${data.record_pk}/edit`;
       recordEdit.setAttribute('type', 'button');
       recordEdit.innerText = 'Edit';
       let recordDelete = createCardEl(

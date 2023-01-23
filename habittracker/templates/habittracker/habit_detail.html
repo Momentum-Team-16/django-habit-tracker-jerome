@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 <!-- spacer -->
-{% block content %}
+{% load static %}
+<!-- spacer -->
+{% block javascript %}
+<script src="{% static 'js/detail.js' %}" defer></script>
+{% endblock %} {% block content %}
 <div class="card m-2" id="habit" data-habit-pk="{{ habit.pk }}">
   <div class="card-body">
     <h5>{{ habit }}</h5>

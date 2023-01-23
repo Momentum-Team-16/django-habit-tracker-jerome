@@ -14,7 +14,7 @@
       defer
     ></script>
     <script src="{% static 'js/base.js' %}" defer></script>
-    <script src="{% static 'js/detail.js' %}" defer></script>
+    {% block javascript %} {% endblock %}
     <title>Habit Tracker</title>
   </head>
   <body id="container" class="m-2">

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import HabitForm, RecordForm
@@ -6,6 +7,7 @@ import json
 
 
 # Create your views here.
+@login_required
 def index(request):
     user = request.user
     habits = Habit.objects.filter(owner=user)
