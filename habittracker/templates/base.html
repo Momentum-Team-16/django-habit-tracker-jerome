@@ -18,9 +18,17 @@
     <title>Habit Tracker</title>
   </head>
   <body id="container" class="m-2">
-    <header>
-      <a href="{% url 'home' %}">Home</a>
-      <h2 class="text-center" id="page-title">Habit Tracker</h2>
+    <header class="d-flex justify-content-between align-items-center">
+      <div>
+        <a href="{% url 'home' %}">Home</a>
+      </div>
+      <div>
+        <h2 class="text-center" id="page-title">Habit Tracker</h2>
+      </div>
+      <div class="d-flex flex-column">
+        <a href="{% url 'auth_login' %}">Login / </a>
+        <a href="{% url 'auth_logout' %}">Logout</a>
+      </div>
     </header>
     {% block content %} {% endblock %}
   </body>
