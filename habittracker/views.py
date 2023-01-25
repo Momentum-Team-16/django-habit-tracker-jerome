@@ -19,7 +19,7 @@ def index(request):
 
 def habit_detail(request, pk):
     habit = get_object_or_404(Habit, pk=pk)
-    records = Record.objects.filter(habit=habit)
+    records = Record.objects.filter(habit=habit).order_by('-date')
     context = {
         'habit': habit,
         'records': records,
