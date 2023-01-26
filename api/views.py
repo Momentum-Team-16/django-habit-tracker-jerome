@@ -1,8 +1,8 @@
-# from rest_framework.views import APIView
-from rest_framework import generics
-# from rest_framework.response import Response
+from django.db import IntegrityError
+from rest_framework import generics, status
+from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from habittracker.models import Habit, Record
+from habittracker.models import Habit
 from . import serializers
 
 
@@ -48,7 +48,7 @@ class RecordAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.RecordSerializer
 
     def get_queryset(self):
-        habit = get_object_or_404(Habit, pk=self.kwargs['habit_pk'])
+        habit = get_object_or_404(Habit, pk=self.kwargs['habit_pk'], owner=self.request.user)
         return habit.records.all()
 
 
@@ -56,5 +56,9 @@ class RecordCreateAPIView(generics.CreateAPIView):
     serializer_class = serializers.RecordSerializer
 
     def perform_create(self, serializer):
-        habit = get_object_or_404(Habit, pk=self.kwargs['habit_pk'])
-        serializer.save(habit=habit)
+        habit = get_object_or_404(Habit, pk=self.kwargs['habit_pk'], owner=self.request.user)
+        try:
+            serializer.save(habit=habit)
+        except IntegrityError:
+            error_data = {'error': 'Unique constraint violation: a record already exists for this date.'}
+            return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
