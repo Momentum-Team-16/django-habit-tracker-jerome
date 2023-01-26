@@ -3,6 +3,7 @@ from habittracker.models import Habit, Record
 
 
 class RecordSerializer(serializers.ModelSerializer):
+    habit = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Record
