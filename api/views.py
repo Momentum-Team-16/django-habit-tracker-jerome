@@ -57,8 +57,10 @@ class RecordCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         habit = get_object_or_404(Habit, pk=self.kwargs['habit_pk'], owner=self.request.user)
+        serializer.save(habit=habit)
+
+    def create(self, request, *args, **kwargs):
         try:
-            serializer.save(habit=habit)
+            return super().create(request, *args, **kwargs)
         except IntegrityError:
-            error_data = {'error': 'Unique constraint violation: a record already exists for this date.'}
-            return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Unique constraint violation: a record already exists for this date."}, status=status.HTTP_400_BAD_REQUEST)

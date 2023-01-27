@@ -34,6 +34,7 @@ class Record(BaseModel):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name='records')
 
     class Meta:
+        ordering = ['-date']
         constraints = [models.UniqueConstraint(fields=['habit', 'date'], name='unique_record')]
 
     def __str__(self):

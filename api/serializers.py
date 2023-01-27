@@ -1,13 +1,19 @@
 from rest_framework import serializers
 from habittracker.models import Habit, Record
+target = 30
 
 
 class RecordSerializer(serializers.ModelSerializer):
     habit = serializers.PrimaryKeyRelatedField(read_only=True)
+    target_status = serializers.SerializerMethodField('get_target_status')
+
+    def get_target_status(self, record):
+        habit_target = record.habit.target
+        return record.quantity >= habit_target
 
     class Meta:
         model = Record
-        fields = ('id', 'date', 'quantity', 'habit')
+        fields = ('id', 'date', 'quantity', 'habit', 'target_status')
 
 
 class HabitSerializer(serializers.ModelSerializer):
