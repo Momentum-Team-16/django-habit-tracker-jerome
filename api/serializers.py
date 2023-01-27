@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from rest_framework import serializers
 from habittracker.models import Habit, Record
 
@@ -18,10 +19,14 @@ class RecordSerializer(serializers.ModelSerializer):
 class HabitSerializer(serializers.ModelSerializer):
     records = RecordSerializer(many=True)
     owner = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    habit_total = serializers.SerializerMethodField('get_habit_total')
+
+    def get_habit_total(self, habit):
+        return habit.records.aggregate(Sum('quantity'))
 
     class Meta:
         model = Habit
-        fields = ('id', 'name', 'target', 'unit_measure', 'owner', 'records')
+        fields = ('id', 'name', 'target', 'unit_measure', 'owner', 'records', 'habit_total')
 
 
 class HabitListSerializer(serializers.ModelSerializer):
