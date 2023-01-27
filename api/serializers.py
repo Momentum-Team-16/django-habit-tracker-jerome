@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from habittracker.models import Habit, Record
-target = 30
 
 
 class RecordSerializer(serializers.ModelSerializer):
