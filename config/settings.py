@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'habittracker',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'debug_toolbar',
 ]
 
@@ -156,5 +158,8 @@ if env("RENDER"):
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }

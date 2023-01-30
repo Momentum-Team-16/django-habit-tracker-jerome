@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from habittracker.models import Habit
@@ -40,8 +40,11 @@ class HabitListAPIView(generics.ListCreateAPIView):
 
 
 class HabitDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Habit.objects.all()
     serializer_class = serializers.HabitSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.request.user.habits.all()
 
 
 class RecordAPIView(generics.RetrieveUpdateDestroyAPIView):
